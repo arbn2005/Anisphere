@@ -34,33 +34,62 @@ func main() {
 	}
 
 	// For testing User insertion purpose
+	/*
+		user := models.User{
+			Username:     "abhayrajbhatn",
+			Email:        "bhatabhayraj1608@gmail.com",
+			PasswordHash: "test123",
+		}
 
-	user := models.User{
-		Username:     "abhayrajbhatn",
-		Email:        "bhatabhayraj1608@gmail.com",
-		PasswordHash: "test123",
+		user2 := models.User{
+			Username:     "raja@123",
+			Email:        "raja123@gmail.com",
+			PasswordHash: "test234",
+		}
+		user3 := models.User{
+			Username:     "abhi@2010",
+			Email:        "abhi23@gmail.com",
+			PasswordHash: "Pass@123",
+		}
+
+		err = service.Registeruser(user, db)
+
+		if err != nil {
+			log.Println("Restration error", err)
+		} else {
+			log.Println("Restration was successful!!")
+		}
+
+		err = service.Registeruser(user2, db)
+
+		if err != nil {
+			log.Println("Restration error", err)
+		} else {
+			log.Println("Restration was successful!!")
+		}
+
+		err = service.Registeruser(user3, db)
+
+		if err != nil {
+			log.Println("Restration error", err)
+		} else {
+			log.Println("Restration was successful!!")
+		}
+	*/
+
+	// Test the Login function
+
+	login_user := models.User{
+		Username:     "abhi@2010",
+		Email:        "abhi23@gmail.com",
+		PasswordHash: "pass@123",
 	}
 
-	user2 := models.User{
-		Username:     "raja@123",
-		Email:        "raja123@gmail.com",
-		PasswordHash: "test234",
-	}
-
-	err = service.Registeruser(user, db)
+	err = service.Loginuser(login_user, db)
 
 	if err != nil {
-		log.Println("Restration error", err)
+		log.Println("failed to login", err)
 	} else {
-		log.Println("Restration was successful!!")
+		fmt.Println("Login was successful")
 	}
-
-	err = service.Registeruser(user2, db)
-
-	if err != nil {
-		log.Println("Restration error", err)
-	} else {
-		log.Println("Restration was successful!!")
-	}
-
 }
