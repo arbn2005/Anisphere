@@ -5,6 +5,8 @@ import (
 	"log"
 
 	"github.com/Abhayrajgithub1234/anisphere/database"
+	"github.com/Abhayrajgithub1234/anisphere/models"
+	"github.com/Abhayrajgithub1234/anisphere/service"
 )
 
 func main() {
@@ -24,10 +26,41 @@ func main() {
 		log.Fatal("Error in database ping", err)
 	}
 
-	fmt.Print("established connection successfully !!")
+	fmt.Println("established connection successfully !!")
 
 	err = db.TestQuery()
 	if err != nil {
 		log.Fatal("error in running the query", err)
 	}
+
+	// For testing User insertion purpose
+
+	user := models.User{
+		Username:     "abhayrajbhatn",
+		Email:        "bhatabhayraj1608@gmail.com",
+		PasswordHash: "test123",
+	}
+
+	user2 := models.User{
+		Username:     "raja@123",
+		Email:        "raja123@gmail.com",
+		PasswordHash: "test234",
+	}
+
+	err = service.Registeruser(user, db)
+
+	if err != nil {
+		log.Println("Restration error", err)
+	} else {
+		log.Println("Restration was successful!!")
+	}
+
+	err = service.Registeruser(user2, db)
+
+	if err != nil {
+		log.Println("Restration error", err)
+	} else {
+		log.Println("Restration was successful!!")
+	}
+
 }

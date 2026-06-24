@@ -11,7 +11,7 @@ import (
 )
 
 type Database struct {
-	conn *sql.DB
+	Conn *sql.DB
 }
 
 func Connection() (*Database, error) {
@@ -32,28 +32,28 @@ func Connection() (*Database, error) {
 
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
-		log.Fatal("Error in conneting to DB", err)
+		log.Fatal("Error in Conneting to DB", err)
 	}
 	// returns the struct embedded db poiner to the main function
 	return &Database{
-		conn: db,
+		Conn: db,
 	}, nil
 }
 
 func (d *Database) Ping() error {
-	err := d.conn.Ping()
+	err := d.Conn.Ping()
 	return err
 }
 
 func (d *Database) Close() error {
-	err := d.conn.Close()
+	err := d.Conn.Close()
 	return err
 }
 
 func (d *Database) TestQuery() error {
 	var res int
 
-	err := d.conn.QueryRow("SELECT 1").Scan(&res)
+	err := d.Conn.QueryRow("SELECT 1").Scan(&res)
 
 	if err != nil {
 		return err
