@@ -39,7 +39,7 @@ func Loginuser(user models.User, db *database.Database) error {
 
 	getUser, err := repository.GetUserByEmail(user.Email, db)
 	if err != nil {
-		return err
+		return errors.New("invalid email or password")
 	}
 
 	res := utils.CheckPassword(getUser.PasswordHash, user.PasswordHash)

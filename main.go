@@ -36,6 +36,7 @@ func main() {
 	// Create a port that listens for incomming requests
 
 	http.HandleFunc("/register", handlers.ResgisterHandler(db))
+	http.HandleFunc("/login", handlers.LoginHandler(db))
 	http.ListenAndServe(":8080", nil)
 
 }

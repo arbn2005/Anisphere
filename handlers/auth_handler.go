@@ -15,6 +15,11 @@ type RegisterRequest struct {
 	Password string `json:"password"`
 }
 
+type LoginRequest struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
 func ResgisterHandler(db *database.Database) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var reqUser RegisterRequest
@@ -45,5 +50,34 @@ func ResgisterHandler(db *database.Database) http.HandlerFunc {
 			},
 		)
 
+	}
+}
+
+func LoginHandler(db *database.Database) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		var loginUser LoginRequest
+
+		err := json.NewDecoder(r.Body).Decode(&loginUser)
+		if err != nil {
+			http.Error(w, "Invalid request", http.StatusBadRequest)
+			return
+		}
+
+		user := models.User{
+			Email:        loginUser.Email,
+			PasswordHash: loginUser.Password,
+		}
+
+		err = service.Loginuser(user, db)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusUnauthorized)
+			return
+		}
+
+		w.WriteHeader(http.StatusOK)
+
+		json.NewEncoder(w).Encode(map[string]string{
+			"message": "Login successful",
+		})
 	}
 }
