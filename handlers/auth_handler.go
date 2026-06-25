@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/Abhayrajgithub1234/anisphere/auth"
 	"github.com/Abhayrajgithub1234/anisphere/database"
 	"github.com/Abhayrajgithub1234/anisphere/models"
 	"github.com/Abhayrajgithub1234/anisphere/service"
@@ -68,9 +69,19 @@ func LoginHandler(db *database.Database) http.HandlerFunc {
 			PasswordHash: loginUser.Password,
 		}
 
-		err = service.Loginuser(user, db)
+		var logged_in_user *models.User
+
+		logged_in_user, err = service.Loginuser(user, db)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusUnauthorized)
+			return
+		}
+
+		var token string
+
+		token, err = auth.GenerateToken(logged_in_user.ID)
+		if err != nil {
+			http.Error(w, "Could not generate token", http.StatusInternalServerError)
 			return
 		}
 
@@ -78,6 +89,8 @@ func LoginHandler(db *database.Database) http.HandlerFunc {
 
 		json.NewEncoder(w).Encode(map[string]string{
 			"message": "Login successful",
+			"token":   token,
 		})
+
 	}
 }

@@ -1,2 +1,5 @@
 # ignore the env file
 .env
+
+# ignore the push pass key
+push_password.txt  

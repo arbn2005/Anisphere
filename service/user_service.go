@@ -33,21 +33,22 @@ func Registeruser(user models.User, db *database.Database) error {
 
 }
 
-func Loginuser(user models.User, db *database.Database) error {
+// Up on successful login the function returns the user (to get the UserID which is helpfull for JWT auth)
+func Loginuser(user models.User, db *database.Database) (*models.User, error) {
 
 	var getUser *models.User
 
 	getUser, err := repository.GetUserByEmail(user.Email, db)
 	if err != nil {
-		return errors.New("invalid email or password")
+		return nil, errors.New("invalid email or password")
 	}
 
 	res := utils.CheckPassword(getUser.PasswordHash, user.PasswordHash)
 
 	if res == true {
-		return nil
+		return getUser, nil
 	} else {
-		return errors.New("Wrong Password")
+		return nil, errors.New("Wrong Password")
 	}
 
 }
