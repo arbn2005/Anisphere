@@ -9,10 +9,10 @@ build:
 	go build -o bin/anisphere .
 
 docker-up:
-	docker compose up -d
+	sudo docker compose up -d
 
 docker-down:
-	docker compose down
+	sudo docker compose down
 
 migrate-up:
 	migrate \
