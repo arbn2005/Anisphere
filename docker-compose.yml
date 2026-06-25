@@ -1,0 +1,19 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: anisphere-db
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_USER: anisphere_user 
+      POSTGRES_PASSWORD: anime@2026 
+      POSTGRES_DB: anisphere
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
