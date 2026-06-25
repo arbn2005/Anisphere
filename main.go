@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/Abhayrajgithub1234/anisphere/auth"
 	"github.com/Abhayrajgithub1234/anisphere/database"
 	"github.com/Abhayrajgithub1234/anisphere/handlers"
 )
@@ -34,6 +35,13 @@ func main() {
 	}
 
 	// Create a port that listens for incomming requests
+
+	http.Handle(
+		"/me",
+		auth.AuthMiddleware(
+			handlers.MeHandler(db),
+		),
+	)
 
 	http.HandleFunc("/register", handlers.ResgisterHandler(db))
 	http.HandleFunc("/login", handlers.LoginHandler(db))
